@@ -138,6 +138,7 @@ public class WaterSample {
                     // if we want a different value we can simply hash an extra 1 here
                     while (rs.next())
                     {
+                        h = hash_two_hash(h, rs.getInt("id"));
                         h = hash_two_hash(h, (int)Math.round(calculateFactor(rs) * HASH_MULTIPLIER));
                     }
             }
