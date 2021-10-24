@@ -3,6 +3,8 @@ package com.assignment;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+// a simple DataSource class
+// provides connections with static methods since I want to make WaterSample.find static
 public class WSDataSource {
     static ConnectionPool wsConnectionPool = null;
 

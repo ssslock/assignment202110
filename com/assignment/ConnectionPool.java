@@ -5,7 +5,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.DriverManager;
 
-// a very simple connection pool, no stuffs like reconnect
+// a very simple connection pool
+// in production enviroment we need to use a real one instead
 public class ConnectionPool {
     private String url;
     private String user;
@@ -44,9 +45,5 @@ public class ConnectionPool {
     
     private static Connection createConnection(String url, String user, String password) throws SQLException {
         return DriverManager.getConnection(url, user, password);
-    }
-    
-    public int getSize() {
-        return connectionPool.size() + usedConnections.size();
     }
 }

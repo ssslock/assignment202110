@@ -17,7 +17,7 @@ public class WaterSample {
     static final String SQL_QUERY_ID = "SELECT * FROM water_samples WHERE id = %d";
     static final String SQL_QUERY_FACTOR = "SELECT * FROM factor_weights WHERE id = %d";
     static final String SQL_QUERY_ALL_FACTORS = "SELECT * FROM factor_weights ORDER BY id";
-    static final int HASH_MULTIPLIER = 100000000;
+    static final double HASH_MULTIPLIER = 1000000000.0;
 
     public static WaterSample find(int sample_id) throws SQLException, Exception {
         Connection conn = null;
@@ -104,6 +104,7 @@ public class WaterSample {
         }
     }
 
+    // I multiply the float point values with 10^9, then round it to an integer to ensure that we get the same hash value on different machines and different platforms.
     public int to_hash() {
         int h = id;
         h = hash_two_hash(h, site.hashCode());
@@ -115,7 +116,8 @@ public class WaterSample {
     }
 
     static private int hash_two_hash(int hash1, int hash2) {
-        return hash1 * 31 + hash2;
+        // System.out.println("hash_two_hash(), " + hash1 + ", " + hash2);
+        return hash1 * 31 + hash2;  // there are overflows here, but it is ok as long as it is integer-wraparound
     }
 
     public int to_hash(boolean include_factors) throws SQLException, Exception {
@@ -129,11 +131,11 @@ public class WaterSample {
                     conn = WSDataSource.getConnection();
                     st = conn.createStatement();
                     ResultSet rs = st.executeQuery(SQL_QUERY_ALL_FACTORS);
-                    // if there is no record in factor_weights table the value of h will remain unchanged, which means to_hash(true) and to_hash(false) returns the same value
-                    // if we want different value
+                    // if there is no record in the factor_weights table the value of h will remain unchanged, which means to_hash(true) and to_hash(false) returns the same value
+                    // if we want a different value we can simply hash an extra 1 here
                     while (rs.next())
                     {
-                        h = hash_two_hash(h, (int)Math.round(calculateFactor(rs)));
+                        h = hash_two_hash(h, (int)Math.round(calculateFactor(rs) * HASH_MULTIPLIER));
                     }
             }
             finally
