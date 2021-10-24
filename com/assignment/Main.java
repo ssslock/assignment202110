@@ -10,6 +10,7 @@ public class Main {
     static String pwd = "7dcGc#$q5@/,>n\"B";
 
     public static void main(String[] args) {
+        // connect to database
         try
         {
             System.out.println("Connecting to Database...");
@@ -21,14 +22,15 @@ public class Main {
             return;
         }
 
+        // call class functions
         try
         {
-            System.out.println("Querying Data...");
-
+            System.out.println("Calling class functions...");
+            // find
             WaterSample sample = WaterSample.find(2);
             System.out.format("WaterSample.find(2): %d, %s, %f, %f, %f, %f\n", sample.id, sample.site,
                 sample.chloroform, sample.bromoform, sample.bromodichloromethane, sample.dibromichloromethane);
-
+            // factor
             double factor3 = sample.factor(3);
             System.out.println("factor(3) = " + factor3);
 
@@ -40,7 +42,7 @@ public class Main {
             {
                 System.out.println("factor(6) causes exception: " + ex.getMessage());
             }
-
+            // to_hash
             int hash_no_factors = sample.to_hash();
             System.out.println("to_hash() = " + hash_no_factors);
 

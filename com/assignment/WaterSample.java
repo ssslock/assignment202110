@@ -46,6 +46,7 @@ public class WaterSample {
         }
         finally
         {
+            // clean up
             if (st != null)
             {
                 try {
@@ -61,6 +62,7 @@ public class WaterSample {
         }
     }
 
+    // calculate factor based on weights in this row
     private double calculateFactor(ResultSet rs) throws SQLException {
         double chloroform_weight = rs.getDouble("chloroform_weight");
         double bromoform_weight = rs.getDouble("bromoform_weight");
@@ -89,6 +91,7 @@ public class WaterSample {
         }
         finally
         {
+            // clean up
             if (st != null)
             {
                 try {
@@ -104,8 +107,8 @@ public class WaterSample {
         }
     }
 
-    // I multiply the float point values with 10^9, then round it to an integer to ensure that we get the same hash value on different machines and different platforms.
     public int to_hash() {
+        // multiply the float point values with 10^9, then round it to an integer to ensure that we get the same hash value on different machines and different platforms.
         int h = id;
         h = hash_two_hash(h, site.hashCode());
         h = hash_two_hash(h, (int)Math.round(chloroform * HASH_MULTIPLIER));
@@ -140,6 +143,7 @@ public class WaterSample {
             }
             finally
             {
+                // clean up
                 if (st != null)
                 {
                     try {
