@@ -12,6 +12,7 @@ public class Main {
     public static void main(String[] args) {
         try
         {
+            System.out.println("Connecting to Database...");
             WSDataSource.initConnections(String.format("jdbc:mysql://%s:%d/factor_hw", host, port), user, pwd);
         }
         catch (SQLException ex)
@@ -22,20 +23,29 @@ public class Main {
 
         try
         {
-            WaterSample sample = WaterSample.find(2);
+            System.out.println("Querying Data...");
 
-            System.out.format("find WaterSample: %d, %s, %f, %f, %f, %f\n", sample.id, sample.site,
-            sample.chloroform, sample.bromoform, sample.bromodichloromethane, sample.dibromichloromethane);
-            System.out.println("factor(3) = " + sample.factor(3));
+            WaterSample sample = WaterSample.find(2);
+            System.out.format("WaterSample.find(2): %d, %s, %f, %f, %f, %f\n", sample.id, sample.site,
+                sample.chloroform, sample.bromoform, sample.bromodichloromethane, sample.dibromichloromethane);
+
+            double factor3 = sample.factor(3);
+            System.out.println("factor(3) = " + factor3);
+
             try {
-                sample.factor(6);
+                double factor6 = sample.factor(6);
+                System.out.println("factor(6) = " + factor6);
             }
             catch (Exception ex)
             {
                 System.out.println("factor(6) causes exception: " + ex.getMessage());
             }
-            System.out.println("to_hash() = " + sample.to_hash());
-            System.out.println("to_hash(true) = " + sample.to_hash(true));
+
+            int hash_no_factors = sample.to_hash();
+            System.out.println("to_hash() = " + hash_no_factors);
+
+            int hash_factors = sample.to_hash(true);
+            System.out.println("to_hash(true) = " + hash_factors);
         }
         catch (Exception ex)
         {

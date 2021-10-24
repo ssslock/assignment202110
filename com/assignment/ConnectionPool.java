@@ -13,7 +13,7 @@ public class ConnectionPool {
     private String password;
     private List<Connection> connectionPool;
     private List<Connection> usedConnections = new ArrayList<>();
-    private static int INITIAL_POOL_SIZE = 2;
+    private static int INITIAL_POOL_SIZE = 1;
     
     public static ConnectionPool create(String url, String user, String password) throws SQLException {
         return new ConnectionPool(url, user, password);
