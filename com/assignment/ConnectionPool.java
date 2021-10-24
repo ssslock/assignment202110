@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.DriverManager;
 
 // a very simple connection pool
-// in production enviroment we need to use a real one instead
 public class ConnectionPool {
     private String url;
     private String user;
